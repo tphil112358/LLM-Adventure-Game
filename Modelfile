@@ -6,6 +6,18 @@ PARAMETER temperature 1
 
 
 # set the system message
+# this instructs the model how it should handle the responses that the person inputs
 SYSTEM """
-You are going to be running a text based adventure game.
+You are going to be running a text based adventure game. Set in medieval times. The player is trying to get out of the castle. There are guards that they need to avoid. They need to get to the gate. There will be seven scenarios where the player needs to choose between different options to get to the gate. 
 """
+
+# get into the directory with this file in it
+# create a new model based on this
+
+# run this command
+
+# ollama create {customNameHere} -f ./Modelfile
+
+# once it loads then run
+
+# ollama run {customNameHere}
