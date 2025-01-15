@@ -4,8 +4,8 @@ import ollama
 client = ollama.Client()
 
 # Define the model and the input prompt
-model = "testingModel"  # Replace with your model name
-prompt = "What is Python?"
+model = "adventureTest"  # Replace with your model name
+prompt = "Start the Game!"
 
 # Send the query to the model
 response = client.generate(model=model, prompt=prompt)

@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\power\\.nuget\\packages\\": {}
+    "C:\\Users\\dlmcb\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\power\\OneDrive\\Documents\\Programing\\Programing_with_classes\\cse210-projects\\final\\FinalProject\\FinalProject.csproj",
+      "projectUniqueName": "C:\\Users\\dlmcb\\Documents\\GitHub\\LLM-Adventure-Game\\FinalProject\\FinalProject.csproj",
       "projectName": "FinalProject",
-      "projectPath": "C:\\Users\\power\\OneDrive\\Documents\\Programing\\Programing_with_classes\\cse210-projects\\final\\FinalProject\\FinalProject.csproj",
-      "packagesPath": "C:\\Users\\power\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\power\\OneDrive\\Documents\\Programing\\Programing_with_classes\\cse210-projects\\final\\FinalProject\\obj\\",
+      "projectPath": "C:\\Users\\dlmcb\\Documents\\GitHub\\LLM-Adventure-Game\\FinalProject\\FinalProject.csproj",
+      "packagesPath": "C:\\Users\\dlmcb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\dlmcb\\Documents\\GitHub\\LLM-Adventure-Game\\FinalProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\power\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\dlmcb\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
