@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import random
 
 def OllamaParser(): # Dale's Domain
+    
     pass
 
 def run_round(prompt, choices):
