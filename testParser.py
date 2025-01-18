@@ -13,24 +13,54 @@ payload = {
 # Send the HTTP POST request with streaming disabled
 response = requests.post(url, json=payload, stream=False)
 
+# Process the response
 if response.status_code == 200:
     try:
-        # Split the response content by lines
-        response_lines = response.text.splitlines()
+        # Parse the response line by line
+        lines = response.text.splitlines()
+        content = ""  # Collect all 'content' values here
         
-        for line in response_lines:
-            if line.strip():  # Ignore empty lines
-                # Parse each JSON object separately
-                data = json.loads(line)
-                print(data)  # Print each parsed JSON object
-                
-                # Example access (adjust based on your response structure)
-                if "content" in data:
-                    print(data["content"])
+        for line in lines:
+            # Parse each line as JSON
+            parsed_line = json.loads(line)
+            if "message" in parsed_line and "content" in parsed_line["message"]:
+                content += parsed_line["message"]["content"]  # Append the content
+        
+        # Print the formatted content
+        print("Formatted Content:\n")
+        print(content)
     except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {e}")
+        print(f"Error parsing response: {e}")
+        print("Raw response:\n", response.text)
 else:
     print(f"Request failed with status code: {response.status_code}")
+    print(f"Response content: {response.text}")
+
+# combined_data = []
+
+# if response.status_code == 200:
+#     try:
+#         # Split the response content by lines
+#         response_lines = response.text.splitlines()
+        
+#         for line in response_lines:
+#             if line.strip():  # Ignore empty lines
+#                 # Parse each JSON object separately
+#                 data = json.loads(line)
+#                 # print(data)  # Print each parsed JSON object
+#                 combined_data.append(data)
+#                 print(data)
+                
+#                 # Example access (adjust based on your response structure)
+#                 if "content" in combined_data:
+#                     print(combined_data["content"])
+#     except json.JSONDecodeError as e:
+#         print(f"Error decoding JSON: {e}")
+# else:
+#     print(f"Request failed with status code: {response.status_code}")
+
+
+# print(f"Combined Data: {combined_data}")
 
 
 # # Check the response status

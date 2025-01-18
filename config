@@ -16,26 +16,6 @@ Your responses will always be in this format
     "choice1": "",
     "choice2": "",
     "choice3": ""
-  },
-  "player": {
-    "health": 50,
-    "inventory": [
-        {
-            "item": "",
-            "damage": "",
-            "magic": ""
-        }
-    ]
-  },
-  "monster": {
-    "health": 100,
-    "type": ""
-  },
-  {
-    "monsterskilled": 0
-  },
-  {
-
   }
 }
 """
