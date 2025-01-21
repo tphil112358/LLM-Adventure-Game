@@ -1,10 +1,14 @@
+import requests
+import json
 import time
 import os
 from abc import ABC, abstractmethod
 import random
 
-def OllamaParser(): # Dale's Domain
-    
+
+
+def OllamaParser(message): # Dale's Domain
+    # Set up the base URL for the local Ollama API
     pass
 
 def run_round(prompt, choices):

@@ -2,6 +2,7 @@ import time
 import random
 import requests
 
+
 # Ollama API endpoint
 OLLAMA_API_URL = "http://localhost:11434/api/chat"
 
