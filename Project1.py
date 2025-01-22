@@ -4,8 +4,9 @@ import time
 import os
 from abc import ABC, abstractmethod
 import random
-
-
+from langchain_ollama import OllamaLLM
+from langchain_core.prompts import ChatPromptTemplate
+from combat import Player, Combat
 
 def OllamaParser(message): # Dale's Domain
     # Set up the base URL for the local Ollama API
@@ -40,7 +41,8 @@ def run_round(prompt, choices):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-    narrative, consequences = OllamaParser(f"The player made choice #{player_choice}.") # Narrative is a string, consequences is a formatted array.
+    OllamaParser(context,player_choice)
+    narrative, consequences = (f"The player made choice #{player_choice}.") # Narrative is a string, consequences is a formatted array.
     print(narrative)
     if consequences[0] == "b": # Begin battle
         start_combat(consequences[1],consequences[2])
@@ -81,17 +83,34 @@ def run_round(prompt, choices):
                 print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} attack.")
                 player.raiseAttack({consequences[3 + (3 * looped)]})
             
+def handle_ai_interaction(context, user_input):
+    result = chain.invoke({"context": context, "answer": user_input})
+    return result
 
-escaped = False
-numberOfRounds = 0
 def main():
+    model = OllamaLLM(model="llama2")
+    prompt = ChatPromptTemplate.from_template(template)
+    chain = prompt | model
+
+    escaped = False
+    numberOfRounds = 0
+    print("Welcome to the dungeon escape game!")
+    player_name = input("Enter your hero's name: ")
+    player = Player(player_name)
+    print(f"Hello, {player.get_name()}! Your adventure begins now!")
+    time.sleep(1)
+
     while (escaped == False):
-        prompt, choices = queryAI()
+        prompt, choices = queryAI(narrative, context, choice, config)
         run_round(prompt, choices)
+        if Player.getHealth() <= 0:
+            print("\nYou were defeated...")
+            time.sleep(1)
+            print("Game Over.")
         numberOfRounds += 1
     print("\n You won!\n")
     print(f"\n You succesfully escaped the dungeon with {player.gethealth()} health remaining after confronting {numberOfRounds} challanges.")
-    
+            
 
-
-main()
+if __name__ == "__main__":
+    main()
