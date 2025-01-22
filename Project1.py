@@ -18,19 +18,9 @@ def run_round(prompt, choices):
     prompt: a string describing to the player the situation relevant to their choices.
     choices: a list of strings between 2-4 objects large, which describes the course of action the player can react with.
 
-    Returns nothing.
+    Returns a bool representing if the player has successfully escaped the dungeon. 
     """
-def question(prompt, choices):
-    """
-    Runs a single round of the game outside of combat.
 
-    Parameters:
-    - prompt (str): A string describing the situation relevant to the player's choices.
-    - choices (list of str): A list of strings (2-4 items) describing the available actions.
-
-    Returns:
-    - None
-    """
     if not (2 <= len(choices) <= 4):
         raise ValueError("The choices list must contain between 2 and 4 items.")
 
@@ -50,14 +40,57 @@ def question(prompt, choices):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-# Example usage
-prompt = "You find yourself in a dark forest. There's a path ahead and a cave to your right. What do you do?"
-choices = ["Take the path", "Enter the cave"]
+    narrative, consequences = OllamaParser(f"The player made choice #{player_choice}.") # Narrative is a string, consequences is a formatted array.
+    print(narrative)
+    if consequences[0] == "b": # Begin battle
+        start_combat(consequences[1],consequences[2])
+    elif consequences[0] == "n": # No consequences
+        pass
+    elif consequences[0] == "c": # Standard Consequences
+        """
+        Standard consequences can include any number of effects, and each effect consists of three parts:
+        [1] : a string, the formatting code
+            "hl" : Health Loss
+            "hg" : Health Gain
+            "ii" : Item
+            "di" : Defense Item
+            "ai" : Attack Item
+        [2] : a string, either a description of what happened for health loss and gain, or the name of the item
+        [3] : an int, either the amount of health to be lost/gained, or the amount the defence or attack stat is being raised, for ii, leave a 0.
+        
+        The following loop repeats for the number of objects in the consequences array / 3 (Once for each effect)
+        Example array:
+        consequences = ["c", "hl", "You breathed some of the poison gas.", 10, "ai", "Elvish Sword", 15]
+        (The player choose to take a risk by entering the poison gas cloud room to grab an sword they saw, losing 10 health but increasing attack stat by 15.)
+        """
+        looped = 0
+        for c in consequences / 3:
+            if consequences[1 + (3 * looped)] == "hl": # Consequence was the player loses health
+                print(f"{consequences[2 + (3 * looped)]}. Lose {consequences[3 + (3 * looped)]} health")
+                player.sethealth(player.gethealth() - consequences[3 + (3 * looped)])
+            elif consequences[1 + (3 * looped)] == "hg": # Consequence was the player gains health
+                print(f"{consequences[2 + (3 * looped)]}. Gain {consequences[3 + (3 * looped)]} health")
+                player.sethealth(player.gethealth() + consequences[3 + (3 * looped)])
+            elif consequences[1 + (3 * looped)] == "ii": # Consequence was an item was found, add it to inventory
+                print(f"You find a {consequences[2 + (3 * looped)]}! Use it to {item.description(consequences[2 + (3 * looped)])}")
+                player.inventoryadditem(consequences[3 + (3 * looped)])
+            elif consequences[1 + (3 * looped)] == "di": # Consequence was a defense item was found, raise defense-stat
+                print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} defence.")
+                player.raiseDefense({consequences[3 + (3 * looped)]})
+            elif consequences[1 + (3 * looped)] == "ai": # Consequence was a attack item was found, raise attack-stat
+                print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} attack.")
+                player.raiseAttack({consequences[3 + (3 * looped)]})
+            
 
 escaped = False
+numberOfRounds = 0
 def main():
     while (escaped == False):
+        prompt, choices = queryAI()
         run_round(prompt, choices)
+        numberOfRounds += 1
+    print("\n You won!\n")
+    print(f"\n You succesfully escaped the dungeon with {player.gethealth()} health remaining after confronting {numberOfRounds} challanges.")
     
 
 
