@@ -8,10 +8,6 @@ from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 from combat import Player, Combat
 
-def OllamaParser(message): # Dale's Domain
-    # Set up the base URL for the local Ollama API
-    pass
-
 def run_round(prompt, choices):
     """
     Runs a single round of the game outside of combat.
