@@ -69,19 +69,19 @@ def run_round(prompt, choices):
         for c in consequences / 3:
             if consequences[1 + (3 * looped)] == "hl": # Consequence was the player loses health
                 print(f"{consequences[2 + (3 * looped)]}. Lose {consequences[3 + (3 * looped)]} health")
-                player.sethealth(player.gethealth() - consequences[3 + (3 * looped)])
+                Player.set_health(Player.get_health() - consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "hg": # Consequence was the player gains health
                 print(f"{consequences[2 + (3 * looped)]}. Gain {consequences[3 + (3 * looped)]} health")
-                player.sethealth(player.gethealth() + consequences[3 + (3 * looped)])
+                Player.set_health(Player.get_health() + consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "ii": # Consequence was an item was found, add it to inventory
                 print(f"You find a {consequences[2 + (3 * looped)]}! Use it to {item.description(consequences[2 + (3 * looped)])}")
-                player.inventoryadditem(consequences[3 + (3 * looped)])
+                Player.inventoryadditem(consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "di": # Consequence was a defense item was found, raise defense-stat
                 print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} defence.")
-                player.raiseDefense({consequences[3 + (3 * looped)]})
+                Player.raise_defense({consequences[3 + (3 * looped)]})
             elif consequences[1 + (3 * looped)] == "ai": # Consequence was a attack item was found, raise attack-stat
                 print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} attack.")
-                player.raiseAttack({consequences[3 + (3 * looped)]})
+                Player.raise_attack({consequences[3 + (3 * looped)]})
             
 def handle_ai_interaction(context, user_input):
     result = chain.invoke({"context": context, "answer": user_input})
