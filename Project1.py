@@ -41,11 +41,13 @@ def run_round(prompt, choices):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-    OllamaParser(context,player_choice)
-    narrative, consequences = (f"The player made choice #{player_choice}.") # Narrative is a string, consequences is a formatted array.
+    narrative, consequences = OllamaParser(context, player_choice) # Narrative is a string, consequences is a formatted array.
     print(narrative)
     if consequences[0] == "b": # Begin battle
-        start_combat(consequences[1],consequences[2])
+        this_player = player
+        this_enemy = Enemy(name=consequences[1], hp=consequences[2], attack_stat=consequences[3])
+        this_combat = Combat(this_player, this_enemy)
+        engage_in_battle(this_combat)
     elif consequences[0] == "n": # No consequences
         pass
     elif consequences[0] == "c": # Standard Consequences
@@ -69,19 +71,19 @@ def run_round(prompt, choices):
         for c in consequences / 3:
             if consequences[1 + (3 * looped)] == "hl": # Consequence was the player loses health
                 print(f"{consequences[2 + (3 * looped)]}. Lose {consequences[3 + (3 * looped)]} health")
-                Player.set_health(Player.get_health() - consequences[3 + (3 * looped)])
+                player.set_health(player.get_health() - consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "hg": # Consequence was the player gains health
                 print(f"{consequences[2 + (3 * looped)]}. Gain {consequences[3 + (3 * looped)]} health")
-                Player.set_health(Player.get_health() + consequences[3 + (3 * looped)])
+                player.set_health(player.get_health() + consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "ii": # Consequence was an item was found, add it to inventory
                 print(f"You find a {consequences[2 + (3 * looped)]}! Use it to {item.description(consequences[2 + (3 * looped)])}")
-                Player.inventoryadditem(consequences[3 + (3 * looped)])
+                player.inventoryadditem(consequences[3 + (3 * looped)])
             elif consequences[1 + (3 * looped)] == "di": # Consequence was a defense item was found, raise defense-stat
                 print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} defence.")
-                Player.raise_defense({consequences[3 + (3 * looped)]})
+                player.raise_defense({consequences[3 + (3 * looped)]})
             elif consequences[1 + (3 * looped)] == "ai": # Consequence was a attack item was found, raise attack-stat
                 print(f"You find a {consequences[2 + (3 * looped)]}! Gain {consequences[3 + (3 * looped)]} attack.")
-                Player.raise_attack({consequences[3 + (3 * looped)]})
+                player.raise_attack({consequences[3 + (3 * looped)]})
             
 def handle_ai_interaction(context, user_input):
     result = chain.invoke({"context": context, "answer": user_input})
