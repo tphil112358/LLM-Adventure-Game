@@ -9,7 +9,9 @@ https://ollama.com/download
 Ollama is a free program that runs pre-trained and publicly avaiable models. You could use any one, I chose the most versatile aand lightweight, ollama2, since cutting-edge weights and mesh complexity weren't key to understanding the fundamentals of AI implementation, and significantly sped up troubleshooting. The program runs in python and has just one dependency, which you can install using the following (once Ollama is installed)
 
 python -m venv llmadventure
+
 .\llmadventure\Scripts\Activate.ps1 
+
 pip install langchain langchain-ollama ollama 
 
 # Sources
