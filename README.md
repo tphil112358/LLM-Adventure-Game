@@ -12,15 +12,13 @@ python -m venv llmadventure
 .\llmadventure\Scripts\Activate.ps1 
 pip install langchain langchain-ollama ollama 
 
-# Useful Websites
+# Sources
 
-{Make a list of websites that you found helpful in this project}
 * [Ollama]https://ollama.com/
 * [Informative LLM Documentation]https://www.cloudflare.com/learning/ai/what-is-large-language-model/
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
 * Implement additional LLM queries to improve performance and realism (itemized queries)
 * Experiment with newer LLMs to improve functionality
 * Introduce a walked character arc, granting a skeleton to the sometimes amorphous AI-generated story (which would itself be AI-generated)
