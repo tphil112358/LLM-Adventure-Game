@@ -6,6 +6,18 @@ def query_ollama(enemy_info):
     }
     # Add logic to send data to Ollama
 
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def __str__(self):
+        return self.name
+
+    def description(self):
+        return self.description
+
+
 class Player:
     def __init__(self, name, max_hp, attack_stat, defense_stat):
         self._name = name
@@ -13,84 +25,21 @@ class Player:
         self._hp = max_hp
         self._attack_stat = attack_stat
         self._defense_stat = defense_stat
-        self._items = []
+        self._items = []  # This will now store Item objects
         self._cooldowns = {"Power Strike": 0, "Healing Aura": 0, "Crippling Blow": 0}
         self._special_abilities = {"Power Strike": 0, "Healing Aura": 0, "Crippling Blow": 0}
-        self._defend_mode = False
-
-    # Set health
-    def set_health(self, health):
-        self._hp = max(0, min(health, self._max_hp))
-        print(f"{self._name}'s health is now {self._hp}/{self._max_hp}.")
-
-    # Get current health
+        self._defend_mode = False\
+    
+    def get_name(self):
+        return self._name
+    
     def get_health(self):
         return self._hp
 
-    # Raise defense
-    def raise_defense(self, amount):
-        self._defense_stat += amount
-        print(f"{self._name}'s defense increased by {amount}! New defense: {self._defense_stat}.")
-
-    # Raise attack
-    def raise_attack(self, amount):
-        self._attack_stat += amount
-        print(f"{self._name}'s attack increased by {amount}! New attack: {self._attack_stat}.")
-
-    # Add item to inventory
-    def add_item(self, item_name):
-        self._items.append(item_name)
-        print(f"{item_name} added to {self._name}'s inventory.")
-
-
-    def special_attack(self, ability_name):
-        if self._cooldowns.get(ability_name, 0) > 0:
-            print(f"{ability_name} is on cooldown for {self._cooldowns[ability_name]} more turn(s).")
-            return None
-
-        damage = 0
-        if ability_name == "Power Strike":
-            damage = self._attack_stat * 2
-        elif ability_name == "Healing Aura":
-            self._hp = min(self._max_hp, self._hp + 200)
-            print(f"{self._name} heals for 200 HP! Current HP: {self._hp}.")
-        elif ability_name == "Crippling Blow":
-            damage = self._attack_stat * 1.5
-
-        if damage > 0:
-            print(f"{self._name} uses {ability_name}, dealing {damage} damage!")
-        self._cooldowns[ability_name] = 3  # Set cooldown
-        return damage
-
-    def reduce_cooldowns(self):
-        for ability in self._cooldowns:
-            if self._cooldowns[ability] > 0:
-                self._cooldowns[ability] -= 1
-
-    def get_name(self):
-        return self._name
-
-    def get_health_factor(self):
-        """Calculates health as a percentage of max_hp."""
-        if self._max_hp == 0:
-            return 0
-        return max(0, self._hp // (self._max_hp // 50))
-
-    def attack(self, min_damage=10, max_damage=50):
-        return random.randint(min_damage, max_damage)
-
-    def receives_damage(self, damage):
-        """Reduces damage based on the defense stat and whether the player is in defend mode."""
-        if self._defend_mode:
-            reduction = 0.2 + (self._defense_stat * 0.01)
-            reduced_damage = damage * (1 - reduction)  # Apply total reduction
-            reduced_damage = max(1, round(reduced_damage))  # Ensure at least 1 damage, rounded
-            print(f"Damage reduced by {reduction * 100:.1f}%! Final damage: {reduced_damage}")
-            damage = reduced_damage  # Update damage to the reduced value
-        else:
-            damage = max(1, int(damage))  # Ensure at least 1 damage if not defending
-
-        self._hp -= damage
+    def add_item(self, item):
+        """Add an Item object to the inventory."""
+        self._items.append(item)
+        print(f"{item} added to {self._name}'s inventory.")
 
     def use_item(self, item_name):
         """Use an item from the player's inventory and apply its effects."""
@@ -110,6 +59,7 @@ class Player:
 
         print(f"{item_name} is not a valid item or not in your inventory!")
         return False  # Indicate the item was not used
+
 
 
     def is_alive(self):
@@ -206,6 +156,7 @@ class Combat:
                     if used:
                         break  # Exit item selection after successfully using an item
 
+
         self._player.reduce_cooldowns()  # Reduce cooldowns at the end of the turn
 
     def enemy_turn(self):
@@ -258,9 +209,9 @@ class Combat:
 
 
 # Example Usage
-player = Player(name="Hero", max_hp=100, attack_stat=20, defense_stat=10)
-player._items = ["Healing Potion",]
-enemy = Enemy(name="Goblin", hp=50, attack_stat=15)
-combat = Combat(player, enemy)
+#player = Player(name="Hero", max_hp=100, attack_stat=20, defense_stat=10)
+#player._items = ["Healing Potion",]
+#enemy = Enemy(name="Goblin", hp=50, attack_stat=15)
+#combat = Combat(player, enemy)
 
-combat.engage_in_battle()
+#combat.engage_in_battle()
